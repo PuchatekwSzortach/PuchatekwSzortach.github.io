@@ -332,7 +332,10 @@
     <hr>
     $$
         \frac{ \partial{a} }{ \partial{z} } =
-        \frac{ \frac{\partial(f)}{\partial(z)} * g - f * \frac{\partial(g)}{\partial(z)}}{g^2}
+            \frac{
+                \frac{ \partial{f} }{ \partial{z} } * g -
+                f * \frac{ \partial{g} }{ \partial{z} }
+            } {g^2}
     $$
     $$
         \frac{ \partial{a} }{ \partial{z} } = \frac { 0 - 1 * (-e^{-z})} { (1 + e^{-z})^2 }
@@ -1681,19 +1684,314 @@
 
     <br><br>
     
+
+    
 <div class="shadow-lg">
     <div class=
 "h3 card-header text-center bg-success text-white"
->Optimizing cost function</div>
-    <div class="m-4">
-        <ul class="list-group">
-            <li class="list-group-item">Sigmoid derivative and slow learning with mean square error function</li>
-            <li class="list-group-item">Binary cross entropy</li>
-            <li class="list-group-item">Preactivation error with binary cross entropy cost function</li>
-        </ul>
+>Training with saturated sigmoid and mean square error cost function</div>
+        <br>
+        
+
+    <div class="row">
+
+            <div class="col"></div>
+            <div class="col">
+                <table class="table table-bordered text-center">
+                    <tbody>
+                        <tr>
+                            <td> \( x = -2 \) </td>
+                            <td> \( w = 3 \) </td>
+                            <td> \( b = -1 \) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"></div>
     </div>
+
+    <div class="text-center h6">Prediction</div>
+    $$ z = wx + b $$
+    $$ z = (-2 * 3) - 1 $$
+    $$ z = -7 $$
+    $$ a = \sigma(-7) $$
+    $$ a = 0.000911 $$
+
+    <hr>
+
+    <div class="text-center h6">Cost derivative w.r.t. activation</div>
+    $$ y = 1 $$
+    $$ C = \frac{1}{2}(y - a)^2 $$
+    $$ \frac{ \partial{C} }{ \partial{a} } = a - y $$
+    $$ \frac{ \partial{C} }{ \partial{a} } = 0.000911 - 1 = -0.999089 $$
+
+    <hr>
+
+    <div class="text-center h6">Cost derivative w.r.t. preactivation</div>
+    $$ \frac{ \partial{C} }{ \partial{z} } =
+        \frac{ \partial{C} }{ \partial{a} } * \frac{ \partial{a} }{ \partial{z} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{z} } = \frac{ \partial{C} }{ \partial{a} } * a * (1 - a) $$
+    $$ \frac{ \partial{C} }{ \partial{z} } = -0.999089 * 0.000911 * (1 - 0.000911) $$
+    $$ \frac{ \partial{C} }{ \partial{z} } = -0.00090934 $$
+
+    <hr>
+
+    <div class="text-center h6">Cost derivative w.r.t. weight</div>
+    $$ \frac{ \partial{C} }{ \partial{w} } = \frac{ \partial{C} }{ \partial{z} } *
+        \frac{ \partial{z} }{ \partial{w} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{w} } = \frac{ \partial{C} }{ \partial{z} } * x $$
+    $$ \frac{ \partial{C} }{ \partial{w} } = -0.00090934 * -2 $$
+    $$ \frac{ \partial{C} }{ \partial{w} } = 0.00181868 $$
+
+    <hr>
+
+    <div class="text-center h6">Cost derivative w.r.t. bias</div>
+    $$ \frac{ \partial{C} }{ \partial{b} } = \frac{ \partial{C} }{ \partial{z} } * \frac{ \partial{z} }{ \partial{b} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{b} } = -0.00090934 * 1 $$
+    $$ \frac{ \partial{C} }{ \partial{b} } = -0.00090934 $$
+
+    <hr>
+
+    <div class="text-center h6">Weight update</div>
+    $$ w = w - \alpha * \frac{ \partial{C} }{ \partial{w} } $$
+    $$ w = 3 - 1 * 0.00181868 $$
+    $$ w = 2.99818132 $$
+
+    <hr>
+    <div class="text-center h6">Bias update</div>
+    $$ b = b - \alpha * \frac{ \partial{C} }{ \partial{b} } $$
+    $$ b = -1 - (1 * -0.00090934) $$
+    $$ b = -0.99909066 $$
+
+    <hr>
+
+    <div class="text-center h5">Prediction after updates</div>
     <br>
+    <div class="row">
+
+            <div class="col"></div>
+            <div class="col">
+                <table class="table table-bordered  text-center">
+                    <tbody>
+                        <tr>
+                            <td> \( x = -2 \) </td>
+                            <td> \( w = 2.99818132 \) </td>
+                            <td> \( b = -0.99909066 \) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"></div>
+    </div>
+
+    $$ z = wx + b $$
+    $$ z = (-2 * 2.99818132) - 0.99909066 $$
+    $$ z = -6.9954533 $$
+    $$ a = \sigma(-6.9954533) $$
+    $$ a = 0.000915 $$
+    <br>
+
+
 </div>
+
+    <br><br>
+    
+<div class="shadow-lg">
+    <div class=
+"h3 card-header text-center bg-success text-white"
+>Binary cross-entropy cost function</div>
+        <br>
+        
+
+    <div class="text-center h4">$$ C = -( y*ln(a) + (1 - y)*ln(1 - a) ) $$</div>
+    <hr>
+
+    <div class="text-center h5">Sample computations</div>
+    <br>
+    <div class="text-center">\( y = 0 \) and \( a = 0 \)</div>
+    $$ C = -( y*ln(a) + (1 - y)*ln(1 - a) ) $$
+    $$ C = -( 0 + 1 * ln(1) ) $$
+    $$ C = -( 0 ) $$
+    $$ C = 0 $$
+    <hr>
+    <div class="text-center">\( y = 0 \) and \( a = 1 \)</div>
+    $$ C = -( y*ln(a) + (1 - y)*ln(1 - a) ) $$
+    $$ C = -( 0 + 1 * ln(0) ) $$
+    $$ C = -( -\infty ) $$
+    $$ C = \infty $$
+    <hr>
+    <div class="text-center">\( y = 1 \) and \( a = 0 \)</div>
+    $$ C = -( y*ln(a) + (1 - y)*ln(1 - a) ) $$
+    $$ C = -( 1 * ln(0) + 0 ) $$
+    $$ C = -( -\infty ) $$
+    $$ C = \infty $$
+    <hr>
+    <div class="text-center">\( y = 1 \) and \( a = 1 \)</div>
+    $$ C = -( y*ln(a) + (1 - y)*ln(1 - a) ) $$
+    $$ C = -( 1 * ln(1) + 0 ) $$
+    $$ C = -( 0 ) $$
+    $$ C = 0 $$
+
+    <hr>
+    <div class="text-center h4">Cost derivative w.r.t. activation</div>
+
+    $$ C = -( y*ln(a) + (1 - y)*ln(1 - a) ) $$
+    <div class="text-center">Call</div>
+    $$ f = y*ln(a) $$
+    $$ g = (1 - y)*ln(1 - a) $$
+    <div class="text-center">Then</div>
+    $$ C = -( f + g ) $$
+    $$ \frac{ \partial{C} }{ \partial{a} } =
+        -( \frac{ \partial{f} }{ \partial{a} } + \frac{ \partial{g} } { \partial{a} } ) $$
+
+    <hr>
+
+    $$ f = y*ln(a) $$
+    $$ \frac{ \partial{f} }{ \partial{a} } = \frac{ y }{ a }$$
+
+    <hr>
+
+    $$ g = (1 - y)*ln(1 - a) $$
+    $$ u = (1 - a) $$
+    $$ g = (1 - y)*ln(u) $$
+    $$ \frac{ \partial{g} } { \partial{a} } =
+        \frac{ \partial{g} } { \partial{u} } * \frac{ \partial{u} } { \partial{a} } $$
+    $$ \frac{ \partial{g} } { \partial{a} } = \frac{ 1 - y } { u } * (-1) $$
+    $$ \frac{ \partial{g} } { \partial{a} } = - \frac{ 1 - y } { 1 - a } $$
+
+    <hr>
+
+    $$ \frac{ \partial{C} }{ \partial{a} } =
+        -( \frac{ \partial{f} }{ \partial{a} } + \frac{ \partial{g} } { \partial{a} } ) $$
+
+    $$ \frac{ \partial{C} }{ \partial{a} } = -( \frac{ y }{ a } - \frac{ 1 - y } { 1 - a } ) $$
+    $$ \frac{ \partial{C} }{ \partial{a} } = -( \frac{ y*(1 - a) - a*(1 - y) }{ a * (1 - a) } )$$
+    $$ \frac{ \partial{C} }{ \partial{a} } = -( \frac{ y - ay - a + ay }{ a * (1 - a) } )$$
+    $$ \frac{ \partial{C} }{ \partial{a} } = -( \frac{ y - a }{ a * (1 - a) } )$$
+    $$ \frac{ \partial{C} }{ \partial{a} } = \frac{ a - y }{ a * (1 - a) }$$
+
+    <hr>
+    <div class="text-center h4">Cost derivative w.r.t. preactivation</div>
+
+    $$ \frac{ \partial{C} }{ \partial{z} } =
+        \frac{ \partial{C} } { \partial{a} } * \frac{ \partial{a} } { \partial{z} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{z} } = \frac{ a - y }{ a * (1 - a) } * a * (1 - a) $$
+    $$ \frac{ \partial{C} }{ \partial{z} } = a - y $$
+    <br>
+
+
+</div>
+
+    <br><br>
+    
+<div class="shadow-lg">
+    <div class=
+"h3 card-header text-center bg-success text-white"
+>Training with saturated sigmoid and binary cross-entropy cost function</div>
+        <br>
+        
+
+    <div class="row">
+
+            <div class="col"></div>
+            <div class="col">
+                <table class="table table-bordered text-center">
+                    <tbody>
+                        <tr>
+                            <td> \( x = -2 \) </td>
+                            <td> \( w = 3 \) </td>
+                            <td> \( b = -1 \) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"></div>
+    </div>
+
+    <div class="text-center h6">Prediction</div>
+    $$ z = wx + b $$
+    $$ z = (-2 * 3) - 1 $$
+    $$ z = -7 $$
+    $$ a = \sigma(-7) $$
+    $$ a = 0.000911 $$
+
+    <hr>
+
+    <div class="text-center h6">Cost derivative w.r.t. preactivation</div>
+    $$ y = 1 $$
+    $$ C = -( y*ln(a) + (1 - y)*ln(1 - a) ) $$
+    $$ \frac{ \partial{C} }{ \partial{z} } = a - y $$
+    $$ \frac{ \partial{C} }{ \partial{z} } = 0.000911 - 1 = -0.999089 $$
+
+    <hr>
+
+    <div class="text-center h6">Cost derivative w.r.t. weight</div>
+    $$ \frac{ \partial{C} }{ \partial{w} } = \frac{ \partial{C} }{ \partial{z} } *
+        \frac{ \partial{z} }{ \partial{w} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{w} } = \frac{ \partial{C} }{ \partial{z} } * x $$
+    $$ \frac{ \partial{C} }{ \partial{w} } = -0.999089 * -2 $$
+    $$ \frac{ \partial{C} }{ \partial{w} } = 1.998178 $$
+
+    <hr>
+
+    <div class="text-center h6">Cost derivative w.r.t. bias</div>
+    $$ \frac{ \partial{C} }{ \partial{b} } = \frac{ \partial{C} }{ \partial{z} } * \frac{ \partial{z} }{ \partial{b} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{b} } = -0.999089 * 1 $$
+    $$ \frac{ \partial{C} }{ \partial{b} } = -0.999089 $$
+
+    <hr>
+
+    <div class="text-center h6">Weight update</div>
+    $$ w = w - \alpha * \frac{ \partial{C} }{ \partial{w} } $$
+    $$ w = 3 - 1 * 1.998178 $$
+    $$ w = 1.001822 $$
+
+    <hr>
+
+    <div class="text-center h6">Bias update</div>
+    $$ b = b - \alpha * \frac{ \partial{C} }{ \partial{b} } $$
+    $$ b = -1 - (1 * -0.999089) $$
+    $$ b = -0.00091 $$
+
+    <hr>
+
+    <div class="text-center h5">Prediction after updates</div>
+    <br>
+    <div class="row">
+
+            <div class="col"></div>
+            <div class="col">
+                <table class="table table-bordered  text-center">
+                    <tbody>
+                        <tr>
+                            <td> \( x = -2 \) </td>
+                            <td> \( w = 1.001822 \) </td>
+                            <td> \( b = -0.00091 \) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"></div>
+    </div>
+
+    $$ z = wx + b $$
+    $$ z = (-2 * 1.001822) - -0.00091 $$
+    $$ z = -2.002734 $$
+    $$ a = \sigma(-2.002734) $$
+    $$ a = 0.1189 $$
+
+    <br>
+
+
+</div>
+
+
 
     <br><br>
     
@@ -1712,6 +2010,203 @@
     </div>
     <br>
 </div>
+
+    <br><br>
+    
+
+    
+<div class="shadow-lg">
+    <div class=
+"h3 card-header text-center bg-success text-white"
+>Softmax activation function</div>
+    <div class="m-4">
+
+        
+
+    $$ a_i = \frac{ e^{z_i} } { \sum_{j} e^{z_j} } $$
+    <hr>
+    $$ a_1 = \frac{ e^{z_1} } { e^{z_1} + e^{z_2} + e^{z_3} } $$
+    $$ a_2 = \frac{ e^{z_2} } { e^{z_1} + e^{z_2} + e^{z_3} } $$
+    $$ a_3 = \frac{ e^{z_3} } { e^{z_1} + e^{z_2} + e^{z_3} } $$
+
+    <hr>
+    $$ e^{z_i} \ge 0 $$
+    $$ \sum_{j} e^{z_j} \ge 0 $$
+    $$ e^{z_i} \le e^{z_j} $$
+    $$ a_i \in \lt 0, 1 \gt $$
+
+    <hr>
+    $$ a_1 + a_2 + a_3 =
+        \frac{ e^{z_1} } { e^{z_1} + e^{z_2} + e^{z_3} } +
+        \frac{ e^{z_2} } { e^{z_1} + e^{z_2} + e^{z_3} } +
+        \frac{ e^{z_3} } { e^{z_1} + e^{z_2} + e^{z_3} } $$
+
+    $$ a_1 + a_2 + a_3 = \frac{ e^{z_1} + e^{z_2} + e^{z_3} } { e^{z_1} + e^{z_2} + e^{z_3} } $$
+    $$ a_1 + a_2 + a_3 = 1 $$
+    $$ \sum_{j} a_j = 1 $$
+
+
+
+    </div>
+    <br>
+</div>
+
+    <br><br>
+    
+<div class="shadow-lg">
+    <div class=
+"h3 card-header text-center bg-success text-white"
+>Cross-entropy cost function</div>
+    <div class="m-4">
+
+        
+    <div class="text-center h5">$$ C = - (\sum_j y_j * ln(a_j)) $$</div>
+    <div class="text-center h5">$$ C = -y_i * ln(a_i) $$</div>
+    <div class="text-center h5">$$ C = -ln(a_i) $$</div>
+
+
+    </div>
+    <br>
+</div>
+
+    <br><br>
+    
+<div class="shadow-lg">
+    <div class=
+"h3 card-header text-center bg-success text-white"
+>Derivative of cross-entropy cost function w.r.t. preactivation of an active node</div>
+    <div class="m-4">
+
+        
+
+    $$ \frac{ \partial{C} }{ \partial{a_i} } = - \frac{1}{a_i} $$
+    $$ \frac{ \partial{C} }{ \partial{a_1} } = - \frac{1}{a_1} $$
+    <hr>
+    $$ a_1 = \frac{ e^{z_1} } { \sum_{j} e^{z_j} } $$
+    <div class="text-center h6">Call</div>
+    $$ f = e^{z_1} $$
+    $$ g = \sum_{j} e^{z_j} $$
+    <div class="text-center h6">Then</div>
+    $$ a_1 = \frac{ f } { g } $$
+
+    $$
+        \frac{ \partial{a_1} }{ \partial{z_1} } =
+            \frac{
+                \frac{ \partial{f} }{ \partial{z_1} } * g -
+                f * \frac{ \partial{g} }{ \partial{z_1} }
+            } {g^2}
+    $$
+    <hr>
+    $$ \frac{ \partial{f} }{ \partial{z_1} } = e^{z_1} $$
+    $$ \frac{ \partial{g} }{ \partial{z_1} } = e^{z_1} $$
+    <hr>
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_1} } =
+        \frac{ (e^{z_1} * \sum_{j} e^{z_j}) - (e^{z_1} * e^{z_1})} { (\sum_{j} e^{z_j})^2 } $$
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_1} } =
+        \frac{ e^{z_1} * ( \sum_{j} e^{z_j} - e^{z_1} ) } { (\sum_{j} e^{z_j})^2 } $$
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_1} } =
+        \frac{ e^{z_1} } { \sum_{j} e^{z_j} } * \frac{ \sum_{j} e^{z_j} - e^{z_1} } { \sum_{j} e^{z_j} } $$
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_1} } = a_1 * (1 - \frac{ e^{z_1} } { \sum_{j} e^{z_j} }) $$
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_1} } = a_1 * (1 - a_1) $$
+
+    <hr>
+
+    $$ \frac{ \partial{C} }{ \partial{z_1} } =
+        \frac{ \partial{C} }{ \partial{a_1} } * \frac{ \partial{a_1} }{ \partial{z_1} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{a_1} } = - \frac{1}{a_1} $$
+    $$ \frac{ \partial{a_1} }{ \partial{z_1} } = a_1 * (1 - a_1) $$
+
+    $$ \frac{ \partial{C} }{ \partial{z_1} } = - \frac{1}{a_1} * a_1 * (1 - a_1) $$
+    $$ \frac{ \partial{C} }{ \partial{z_1} } = - (1 - a_1) $$
+    $$ \frac{ \partial{C} }{ \partial{z_1} } = a_1 - 1 $$
+    <div class="text-center h6">Generic form</div>
+    $$ \frac{ \partial{C} }{ \partial{z_i} } = a_i - 1 $$
+
+
+
+    </div>
+    <br>
+</div>
+
+    <br><br>
+    
+<div class="shadow-lg">
+    <div class=
+"h3 card-header text-center bg-success text-white"
+>Derivative of cross-entropy cost function w.r.t. preactivation of an inactive node</div>
+    <div class="m-4">
+
+        
+
+    $$ \frac{ \partial{C} }{ \partial{z_2} } =
+        \frac{ \partial{C} }{ \partial{a_1} } * \frac{ \partial{a_1} }{ \partial{z_2} } +
+        \frac{ \partial{C} }{ \partial{a_2} } * \frac{ \partial{a_2} }{ \partial{z_2} } $$
+
+    $$ C = -ln(a_1) $$
+    $$ \frac{ \partial{C} }{ \partial{a_2} } = 0 $$
+
+    $$ \frac{ \partial{C} }{ \partial{z_2} } =
+        \frac{ \partial{C} }{ \partial{a_1} } * \frac{ \partial{a_1} }{ \partial{z_2} } $$
+
+    <hr>
+
+    $$ a_1 = \frac{ e^{z_1} } { \sum_{j} e^{z_j} } $$
+
+    <div class="text-center h6">Call</div>
+    $$ f = e^{z_1} $$
+    $$ g = \sum_{j} e^{z_j} $$
+    <div class="text-center h6">Then</div>
+    $$ a_1 = \frac{ f } { g } $$
+
+    $$
+        \frac{ \partial{a_1} }{ \partial{z_2} } =
+            \frac{
+                \frac{ \partial{f} }{ \partial{z_2} } * g -
+                f * \frac{ \partial{g} }{ \partial{z_2} }
+            } {g^2}
+    $$
+
+    <hr>
+    $$ \frac{ \partial{f} }{ \partial{z_2} } = 0 $$
+    $$ \frac{ \partial{g} }{ \partial{z_2} } = e^{z_2} $$
+    <hr>
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_2} } = \frac{ 0 - (e^{z_1} * e^{z_2}) } { (\sum_{j} e^{z_j})^2 } $$
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_2} } =
+        - \frac{ e^{z_1} } { \sum_{j} e^{z_j} } * \frac{ e^{z_2} } { \sum_{j} e^{z_j} } $$
+
+    $$ a_1 = \frac{ e^{z_1} } { \sum_{j} e^{z_j} } $$
+    $$ a_2 = \frac{ e^{z_2} } { \sum_{j} e^{z_j} } $$
+
+    $$ \frac{ \partial{a_1} }{ \partial{z_2} } = - a_1 * a_2 $$
+
+    <hr>
+
+    $$ \frac{ \partial{C} }{ \partial{z_2} } =
+        \frac{ \partial{C} }{ \partial{a_1} } * \frac{ \partial{a_1} }{ \partial{z_2} } $$
+
+    $$ \frac{ \partial{C} }{ \partial{a_1} } = - \frac{1}{a_1} $$
+    $$ \frac{ \partial{a_1} }{ \partial{z_2} } = - a_1 * a_2 $$
+
+    $$ \frac{ \partial{C} }{ \partial{z_2} } = - \frac{1}{a_1} * (- a_1 * a_2) $$
+    $$ \frac{ \partial{C} }{ \partial{z_2} } = a_2 $$
+    <div class="text-center h6">Generic form</div>
+    $$ \frac{ \partial{C} }{ \partial{z_k} } = a_k $$
+
+
+
+    </div>
+    <br>
+</div>
+
+
 
     <br><br>
     
