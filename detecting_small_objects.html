@@ -81,12 +81,16 @@
         <div class="h5 text-center text-secondary small">SSD: Single Shot MultiBox Detector - sample detections</div>
 
         <br>
-        <hr>
+
+        <img src="/static/images/single_shot_detector_accuracy_across_objects_areas.jpg" width="80%"><br>
+        <div class="h5 text-center text-secondary small">
+            SSD: Single Shot MultiBox Detector - classification accuracy across objects sizes on VOC dataset</div>
 
         <br>
 
-        <img src="/static/images/single_shot_detector_architecture.jpg" width="80%"><br>
-        <div class="h5 text-center text-secondary small">SSD: Single Shot MultiBox Detector - architecture</div>
+        <img src="/static/images/single_shot_detector_recall_across_areas.jpg" width="80%"><br>
+        <div class="h5 text-center text-secondary small">
+            SSD: Single Shot MultiBox Detector - recall accuracy across objects sizes on COCO dataset</div>
 
         <br><br>
     </div>
@@ -515,22 +519,10 @@
 >Single shot detector - objects sizes vs fields of view</div>
     <div class="m-4">
 
-        <img src="/static/images/single_shot_detector_accuracy_across_objects_areas.jpg" width="80%"><br>
-        <div class="h5 text-center text-secondary small">
-            SSD: Single Shot MultiBox Detector - classification accuracy across objects sizes on VOC dataset</div>
-
-        <br><br>
-
-        <img src="/static/images/single_shot_detector_recall_across_areas.jpg" width="80%"><br>
-        <div class="h5 text-center text-secondary small">
-            SSD: Single Shot MultiBox Detector - recall accuracy across objects sizes on COCO dataset</div>
-
-        <br><br>
-
         <img src="/static/images/single_shot_detector_architecture.jpg" width="80%"><br>
         <div class="h5 text-center text-secondary small">SSD: Single Shot MultiBox Detector - architecture</div>
 
-        <br><br>
+        <br>
 
         <table class="table table-bordered text-center">
             <div class="caption text-center h6">Fields of view after 5th convolutional block</div>
@@ -543,7 +535,7 @@
             </tbody>
         </table>
 
-        <br><br>
+        <br>
 
         <ul class="list-group text-center">
             <div class="caption text-center h6">Pascal VOC objects sizes analysis</div>
@@ -551,20 +543,10 @@
             <li class="list-group-item">max(width, height) < 50 px: <code>70.6%</code></li>
         </ul>
 
-        <br><br>
+        <br>
 
         <img src="/static/images/ssd_213x213.jpg"><br>
         <div class="h5 text-center text-secondary small">213x213 window</div>
-
-        <br>
-
-        <img src="/static/images/ssd_50x50.jpg"><br>
-        <div class="h5 text-center text-secondary small">213x213 window reduced to 50x50</div>
-
-        <br>
-
-        <img src="/static/images/ssd_10x10.jpg"><br>
-        <div class="h5 text-center text-secondary small">213x213 window reduced to 10x10</div>
 
         <br>
 
@@ -573,11 +555,8 @@
 
         <br>
 
-        <ul class="list-group text-center">
-            <div class="caption text-center h6">Object size to total field of view size for a single cell</div>
-            <li class="list-group-item">At 100 px: <code>(100 * 100) / (213 * 213) = 22.0%</code></li>
-            <li class="list-group-item">At 50 px: <code>(50 * 50) / (213 * 213) = 5.5%</code></li>
-        </ul>
+        <div class="text-center h4"><code>Problem</code></div>
+        <div class="text-center h6">Field of view too large to detect small objects</div>
 
         <br><br>
 
@@ -589,29 +568,12 @@
 <div class="shadow-lg">
     <div class=
 "h3 card-header text-center bg-success text-white"
->Anecdotal experience</div>
+>Solution</div>
     <div class="m-4">
 
-        <ul class="list-group text-center">
-            <div class="caption text-center h6">Dataset sizes (similar to VOC)</div>
-            <li class="list-group-item">max(width, height) > 100 px: <code>~5%</code></li>
-            <li class="list-group-item">max(width, height) < 50 px: <code>~80%</code></li>
-        </ul>
+        <div class="text-center h6">Add prediction head at block with field of view slightly above desired object sizes</div>
 
-        <br><br>
-
-        <ul class="list-group text-center">
-            <div class="caption text-center h6">Precision and recall for default SSD architecture, prediction threshold at 0.5</div>
-            <li class="list-group-item">Precision: <code>~70%</code></li>
-            <li class="list-group-item">Recall: <code>~20%</code></li>
-        </ul>
-
-        <br><br>
-
-        <div class="text-center h4 text-primary">Solution</div>
-        <div class="text-center h6">Add prediction head at block with fields of view slightly above desired object sizes</div>
-
-        <br><br>
+        <br>
 
         <table class="table table-bordered text-center">
             <div class="caption text-center h6">Fields of view after 3rd convolutional block</div>
@@ -626,8 +588,20 @@
 
         <br><br>
 
+        <div class="text-center text-secondary h6">(Top secret VOC-like dataset)</div>
+
+        <br><br>
+
         <ul class="list-group text-center">
-            <div class="caption text-center h6">Precision and recall after adding prediction head to block 3 of SSD architecture, prediction threshold at 0.5</div>
+            <div class="caption text-center h6">Before</div>
+            <li class="list-group-item">Precision: <code>~70%</code></li>
+            <li class="list-group-item">Recall: <code>~20%</code></li>
+        </ul>
+
+        <br><br>
+
+        <ul class="list-group text-center">
+            <div class="caption text-center h6">After</div>
             <li class="list-group-item">Precision: <code>~80%</code></li>
             <li class="list-group-item">Recall: <code>~80%</code></li>
         </ul>
