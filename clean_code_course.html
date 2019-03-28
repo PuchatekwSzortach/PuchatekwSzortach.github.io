@@ -15,11 +15,11 @@
     <script>hljs.initHighlightingOnLoad();</script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
 </head>
 <body>
 <div class="container">
-
+    
 <div class="jumbotron text-center card mt-4 p-4 shadow-lg">
     <h1>Clean Code</h1>
     <h2>AI Okinawa</h2>
@@ -122,7 +122,7 @@ rooms = ["kitchen", "garage"]
 rooms.append("living room")
     </code></pre>
 </div>
-
+    
 <br><br>
 
 <div class="shadow-lg">
@@ -137,19 +137,19 @@ genFctr = DataBtchsGenFctr(datDir, cat, imgSz)
     <div class="m-4">
     vs
     </div>
-
+        
     <pre><code class="python">categories_count = len(categories_dictionary.keys())
 image_size = 1280, 1280
 
 generator_factory = DataBatchesGeneratorFactory(data_directory, categories_count, image_size)
     </code></pre>
 </div>
-
+    
 <br><br>
 
 <div class="shadow-lg">
     <div class="h3 card-header text-center bg-success text-white">Use names that correctly indicate responsibility</div>
-
+        
     <pre><code class="python">def get_volume(box):
 
     first_distance = get_distance(box[0], box[1])
@@ -221,7 +221,7 @@ def test_get_max():
 
     <pre><code class="python"># Are you sure you can write this function without any bugs?
 def get_polygon_area(polygon):
-
+    
     # Loads of math
     # ...
     return area
@@ -319,7 +319,7 @@ def test_get_words_count_input_contains_special_characters():
         actual = get_words_count(file.name)
 
     assert expected == actual
-    </code></pre>
+    </code></pre>   
 
     <div class="m-4">
 
@@ -338,7 +338,7 @@ def test_get_words_count_input_contains_special_characters():
 
     matches = re.findall(pattern=r"\w+", string=text)
     return len(matches)
-    </code></pre>
+    </code></pre> 
 
     <div class="m-4">
         Now testing is simple too!
@@ -406,7 +406,7 @@ def test_get_words_count_input_contains_special_characters():
     </code></pre>
 
     <pre><code class="python">products = [Product("brick", 1), Product("post_stamp"), Product("ball", 0.5)]
-
+        
 products_with_no_weight_set = get_products_with_no_weight_set(products)
 print(products_with_no_weight_set)
 # prints [Product("post_stamp")]
@@ -904,13 +904,13 @@ def get_frequent_words(text):
 
     words = re.findall(r"\w+", text)
     words_counter = collections.Counter(words)
-
-    frequent_words = [word for word, count in words_counter.items()
+    
+    frequent_words = [word for word, count in words_counter.items() 
                       if config.frequent_words_threshold <= count]
 
     return frequent_words
     </code></pre>
-
+    
     <pre><code class="python"># Inside config module
 frequent_words_threshold = 3
     </code></pre>
@@ -918,9 +918,9 @@ frequent_words_threshold = 3
     <div class="m-4">
         You have to read content of <code>get_frequent_words(...)</code> and of <code>config</code> module to understand what’s going on.<br>
         That's an implicit code - it hides some of its inputs from the reader, so it is difficult to understand how it works.<br><br>
-
+        
         <ul class="list-group">
-            Solution:
+            Solution: 
 
             <li class="list-group-item">change globals into function arguments</li>
             <li class="list-group-item">move configuration values into script entry point</li>
